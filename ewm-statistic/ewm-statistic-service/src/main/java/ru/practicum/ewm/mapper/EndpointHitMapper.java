@@ -10,5 +10,4 @@ public interface EndpointHitMapper {
 
     EndpointHit requestToEndpointHit(HitCreateRequest hitCreateRequest);
 
-    ViewStats responseToViewStats(EndpointHit endpointHit);
 }
