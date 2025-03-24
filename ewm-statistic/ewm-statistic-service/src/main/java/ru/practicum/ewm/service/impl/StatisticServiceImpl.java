@@ -14,9 +14,10 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
-@Slf4j
+
 @Service
 @AllArgsConstructor
+@Slf4j
 public class StatisticServiceImpl implements StatisticService {
 
     private final EndpointHitMapper endpointHitMapper;
