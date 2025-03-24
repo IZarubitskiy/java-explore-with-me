@@ -10,10 +10,7 @@
     </parent>
 
     <artifactId>ewm-statistic</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-
-    <name>Explore With Me - Statistic Service</name>
 
     <modules>
         <module>ewm-statistic-client</module>
