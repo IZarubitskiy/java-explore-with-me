@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface EndpointHitRepository extends JpaRepository<EndpointHit, Long> {
 
-    @Query("SELECT new ru.practicum.StatsDto(e.app, e.uri, COUNT(e)) " +
+    @Query("SELECT new dto.ViewStats(e.app, e.uri, COUNT(e)) " +
             "FROM EndpointHit e " +
             "WHERE e.timestamp BETWEEN :startTime AND :endTime " +
             "AND (:uris IS NULL OR e.uri IN :uris) " +
