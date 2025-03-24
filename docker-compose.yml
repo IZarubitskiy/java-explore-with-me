@@ -1,18 +1,18 @@
 services:
-  statistic-server:
+  stats-server:
     build: ewm-statistic/ewm-statistic-service
     image: ewm-statistic-service
     container_name: ewm-statistic-service
     ports:
       - "9090:9090"
     depends_on:
-      - statistic-db
+      - stats-db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://statistic-db:5432/statistic-db
-      - SPRING_DATASOURCE_USERNAME=dbstats
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/statistic
+      - SPRING_DATASOURCE_USERNAME=userstats
       - SPRING_DATASOURCE_PASSWORD=12345
 
-  statistic-db:
+  stats-db:
     image: postgres:16.1
     container_name: statistic-db
     ports:
@@ -20,8 +20,8 @@ services:
     volumes:
       - ./volumes/postgres/stats_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_DB=statistic-db
-      - POSTGRES_USER=dbstats
+      - POSTGRES_DB=statistic
+      - POSTGRES_USER=userstats
       - POSTGRES_PASSWORD=12345
     healthcheck:
       test: pg_isready -q -d $$POSTGRES_DB -U $$POSTGRES_USER
@@ -39,10 +39,10 @@ services:
       - ewm-db
       - statistic-server
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/ewm-db
-      - SPRING_DATASOURCE_USERNAME=dbewm
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/ewmdb
+      - SPRING_DATASOURCE_USERNAME=userewm
       - SPRING_DATASOURCE_PASSWORD=12345
-      - STATS_SERVER_URL=http://statistic-server:9090
+      - STATS_SERVER_URL=http://stats-server:9090
 
   ewm-db:
     image: postgres:16.1
@@ -50,8 +50,8 @@ services:
     ports:
       - "6542:5432"
     environment:
-      - POSTGRES_DB=ewm-db
-      - POSTGRES_USER=dbewm
+      - POSTGRES_DB=ewmdb
+      - POSTGRES_USER=userewm
       - POSTGRES_PASSWORD=12345
     volumes:
       - ./volumes/postgres/ewm_data:/var/lib/postgresql/data/
