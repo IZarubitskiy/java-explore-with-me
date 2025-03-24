@@ -29,7 +29,7 @@ services:
     image: postgres:16.1
     container_name: ewm-db
     ports:
-      - "6542:5432"
+      - "6432:5432"
     environment:
       - POSTGRES_DB=ewmdb
       - POSTGRES_USER=userewm
