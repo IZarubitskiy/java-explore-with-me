@@ -6,9 +6,9 @@ services:
     ports:
       - "9090:9090"
     depends_on:
-      - stats-db
+      - statistic-db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/statistic-db
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://statistic-db:5432/statistic-db
       - SPRING_DATASOURCE_USERNAME=dbstats
       - SPRING_DATASOURCE_PASSWORD=12345
 
@@ -35,12 +35,12 @@ services:
       - "8080:8080"
     depends_on:
       - ewm-db
-      - stats-server
+      - statistic-server
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/ewm-db
       - SPRING_DATASOURCE_USERNAME=dbewm
       - SPRING_DATASOURCE_PASSWORD=12345
-      - STATS_SERVER_URL=http://stats-server:9090
+      - STATS_SERVER_URL=http://statistic-server:9090
 
   ewm-db:
     image: postgres:16.1
