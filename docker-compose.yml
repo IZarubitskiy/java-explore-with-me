@@ -4,8 +4,6 @@ services:
     container_name: stats-db
     ports:
       - "6542:5432"
-    volumes:
-      - postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=statistic
       - POSTGRES_USER=userstats
@@ -15,8 +13,6 @@ services:
       timeout: 5s
       interval: 5s
       retries: 10
-    networks:
-      - explore-network
 
   stats-server:
     build: ./ewm-statistic/ewm-statistic-service
@@ -29,8 +25,6 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/statistic
       - SPRING_DATASOURCE_USERNAME=userstats
       - SPRING_DATASOURCE_PASSWORD=12345
-    networks:
-      - explore-network
 
   ewm-db:
     image: postgres:16.1
@@ -41,15 +35,11 @@ services:
       - POSTGRES_DB=ewmdb
       - POSTGRES_USER=userewm
       - POSTGRES_PASSWORD=12345
-    volumes:
-      - ./volumes/postgres/ewm_data:/var/lib/postgresql/data/
     healthcheck:
       test: pg_isready -q -d $$POSTGRES_DB -U $$POSTGRES_USER
       timeout: 5s
       interval: 5s
       retries: 10
-    networks:
-      - explore-network
 
   ewm-service:
     build:  ./ewm-main
@@ -64,9 +54,3 @@ services:
       - SPRING_DATASOURCE_USERNAME=userewm
       - SPRING_DATASOURCE_PASSWORD=12345
       - STATS_SERVER_URL=http://stats-server:9090
-    networks:
-      - explore-network
-
-networks:
-  explore-network:
-    driver: bridge
