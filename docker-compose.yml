@@ -1,8 +1,8 @@
 services:
   statistic-server:
-    build: ewm-statistic/ewm-statitstic-service
-    image: ewm-statitstic-service
-    container_name: ewm-statitstic-service
+    build: ewm-statistic/ewm-statistic-service
+    image: ewm-statistic-service
+    container_name: ewm-statistic-service
     ports:
       - "9090:9090"
     depends_on:
