@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @RequiredArgsConstructor
-
 public class HitCreateRequest {
     @NotBlank
     private final String app;

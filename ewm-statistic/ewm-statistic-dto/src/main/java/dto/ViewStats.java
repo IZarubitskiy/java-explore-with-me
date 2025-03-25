@@ -11,7 +11,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @RequiredArgsConstructor
-
 public class ViewStats {
     @NotBlank
     private final String app;
