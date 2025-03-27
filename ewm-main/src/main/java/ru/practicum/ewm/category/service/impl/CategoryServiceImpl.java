@@ -17,7 +17,6 @@ import ru.practicum.ewm.exeption.exemptions.DuplicationException;
 import ru.practicum.ewm.exeption.exemptions.NotFoundException;
 
 import java.util.Collection;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -41,7 +40,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponse getCategoryById(Long categoryId) {
         log.info("Get category with id={}", categoryId);
-        return categoryMapper.categoryToResponse(findById(categoryId));
+        return categoryMapper.categoryToResponse(getById(categoryId));
     }
 
     @Override
@@ -58,7 +57,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponse updateCategory(CategoryRequest categoryRequest, Long categoryId) {
         try {
-            Category oldCategory = findById(categoryId);
+            Category oldCategory = getById(categoryId);
             oldCategory.setName(categoryRequest.getName());
             CategoryResponse categoryResponse = categoryMapper.categoryToResponse(categoryRepository.save(oldCategory));
             log.info("Category with id={} was updated", categoryId);
@@ -70,7 +69,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteCategoryById(Long categoryId) {
-        findById(categoryId);
+        getById(categoryId);
         categoryRepository.deleteById(categoryId);
         log.info("Category with id={} was deleted", categoryId);
     }
@@ -84,14 +83,9 @@ public class CategoryServiceImpl implements CategoryService {
         return e;
     }
 
-    public Category findById(Long categoryId) {
-        Optional<Category> categoryOpt = categoryRepository.findById(categoryId);
-        if (categoryOpt.isPresent()) {
-            log.info("Category with id={} found", categoryId);
-            return categoryOpt.get();
-        } else {
-            log.warn("Category with id={} not found", categoryId);
-            throw new NotFoundException(String.format("Category with id=%d not found", categoryId));
-        }
+    public Category getById(Long categoryId) {
+        log.info("Searching Category with id={}", categoryId);
+        return categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new NotFoundException(String.format("Category with id=%d not found", categoryId)));
     }
 }
