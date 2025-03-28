@@ -15,6 +15,7 @@ import ru.practicum.ewm.compilation.mapper.CompilationMapper;
 import ru.practicum.ewm.compilation.model.Compilation;
 import ru.practicum.ewm.compilation.service.CompilationService;
 import ru.practicum.ewm.event.service.EventService;
+import ru.practicum.ewm.event.utils.EventSearchUtil;
 import ru.practicum.ewm.exeption.exemptions.NotFoundException;
 
 import java.util.Collection;
@@ -28,13 +29,13 @@ import static ru.practicum.ewm.compilation.dao.CompilationRepository.Compilation
 public class CompilationServiceImpl implements CompilationService {
     private final CompilationRepository compilationRepository;
     private final CompilationMapper compilationMapper;
-    private final EventService eventService;
+    private final EventSearchUtil eventSearchUtil;
 
     @Override
     public CompilationResponse create(CompilationCreateRequest compilationCreateRequest) {
         Compilation compilation = compilationMapper.createRequestToCompilation(
                 compilationCreateRequest,
-                eventService.findAllByIdIn(compilationCreateRequest.getEvents()));
+                eventSearchUtil.findAllByIdIn(compilationCreateRequest.getEvents()));
         CompilationResponse response = compilationMapper.compilationToResponse(compilationRepository.save(compilation));
         log.info("Compilation with id={} was created", response.getId());
         return response;
@@ -73,7 +74,7 @@ public class CompilationServiceImpl implements CompilationService {
         compilationMapper.compilationUpdateRequest(
                 compilationUpdateRequest,
                 compilation,
-                eventService.findAllByIdIn(compilationUpdateRequest.getEvents()));
+                eventSearchUtil.findAllByIdIn(compilationUpdateRequest.getEvents()));
         CompilationResponse response = compilationMapper.compilationToResponse(
                 compilationRepository.save(compilation));
         log.info("Compilation with id={} was updated", response.getId());

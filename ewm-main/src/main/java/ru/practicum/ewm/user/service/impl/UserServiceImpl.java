@@ -15,6 +15,8 @@ import ru.practicum.ewm.user.dto.UserResponse;
 import ru.practicum.ewm.user.mapper.UserMapper;
 import ru.practicum.ewm.user.model.User;
 import ru.practicum.ewm.user.service.UserService;
+import ru.practicum.ewm.user.utils.UserSearchUtil;
+import ru.practicum.ewm.user.utils.impl.UserSearchUtilImpl;
 
 import java.util.Collection;
 import java.util.List;
@@ -25,6 +27,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final UserRepository userRepository;
+    private final UserSearchUtil userSearchUtil;
 
     @Override
     public UserResponse createUser(UserCreateRequest userCreateRequest) {
@@ -61,15 +64,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUserById(Long userId) {
-        getById(userId);
         userRepository.deleteById(userId);
         log.info("User with id={} was deleted", userId);
     }
 
-
-    public User getById(Long userId) {
-        log.info("Searching User with id={}", userId);
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException(String.format("User with id=%d not found", userId)));
-    }
 }

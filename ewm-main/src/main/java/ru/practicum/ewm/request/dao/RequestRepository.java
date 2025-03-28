@@ -1,17 +1,26 @@
 package ru.practicum.ewm.request.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
 import ru.practicum.ewm.request.model.Request;
 import ru.practicum.ewm.request.model.enumerates.RequestStatus;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
-public interface RequestRepository extends JpaRepository<Request, Long> {
-    List<Request> findByRequesterId(Long userId);
+@Repository
+public interface RequestRepository extends JpaRepository<Request, Long>, JpaSpecificationExecutor<Request> {
+    Optional<Request> findByRequesterIdAndEventId(Long requesterId, Long eventId);
 
-    boolean existsByRequesterIdAndEventId(Long requesterId, Long eventId);
+    Set<Request> findAllByRequesterId(Long requesterId);
 
-    List<Request> findAllByIdInAndStatus(List<Long> requestIds, RequestStatus requestStatus);
+    Set<Request> findAllByEventId(Long eventId);
 
-    List<Request> findByEventId(Long eventId);
+    List<Request> findAllByIdIn(List<Long> requestIds);
+
+    List<Request> findAllByEventIdAndStatus(Long eventId, RequestStatus status);
+
+    List<Request> findAllByEventIdInAndStatus(List<Long> eventIds, RequestStatus status);
 }

@@ -20,9 +20,9 @@ public interface EventMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "category.id", source = "category")
-    void updateUserRequest(EventUpdateUserRequest eventUpdateUserRequest, @MappingTarget Event event);
+    void updateUserRequest(EventUpdateRequestUser eventUpdateRequestUser, @MappingTarget Event event);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "category.id", source = "category")
-    void patchUserRequest(EventUpdateAdminRequest eventUpdateAdminRequest, @MappingTarget Event event);
+    void patchUserRequest(EventUpdateRequestAdmin eventUpdateRequestAdmin, @MappingTarget Event event);
 }

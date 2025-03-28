@@ -1,10 +1,29 @@
 package ru.practicum.ewm.event.service;
 
-import ru.practicum.ewm.event.model.Event;
+import jakarta.servlet.http.HttpServletRequest;
+import ru.practicum.ewm.event.dto.*;
+import ru.practicum.ewm.request.dto.ParticipationRequestDto;
 
-import java.util.Set;
+import java.util.Collection;
 
 public interface EventService {
+    Collection<EventShortDto> getAllEvents(Long userId, Integer from, Integer size);
 
-    Set<Event> findAllByIdIn(Set<Long> events);
+    Collection<EventFullDto> getAllEventsAdmin(GetAllEventsAdminParams params);
+
+    Collection<EventShortDto> getAllEventsPublic(GetAllEventsPublicParams params);
+
+    EventFullDto patchEventById(Long eventId, EventUpdateRequestAdmin eventUpdateRequestAdmin);
+
+    EventFullDto createEvent(Long userId, EventCreateRequest eventCreateRequest);
+
+    EventFullDto getEventById(Long userId, Long eventId);
+
+    EventFullDto getEventByIdPublic(Long eventId, HttpServletRequest httpServletRequest);
+
+    EventFullDto updateEvent(Long userId, Long eventId, EventUpdateRequestUser updateRequest);
+
+    Collection<ParticipationRequestDto> getRequests(Long userId, Long eventId);
+
+    EventRequestStatusUpdateResult updateRequest(Long userId, Long eventId, EventRequestStatusUpdateRequest updateRequest);
 }
