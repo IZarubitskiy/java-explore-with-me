@@ -1,4 +1,5 @@
 package ru.practicum.ewm.event.dto;
+
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

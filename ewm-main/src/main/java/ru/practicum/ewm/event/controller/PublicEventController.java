@@ -1,4 +1,5 @@
 package ru.practicum.ewm.event.controller;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;

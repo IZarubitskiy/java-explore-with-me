@@ -1,4 +1,5 @@
 package ru.practicum.ewm.event.utils;
+
 import ru.practicum.ewm.event.model.Event;
 
 import java.util.Set;

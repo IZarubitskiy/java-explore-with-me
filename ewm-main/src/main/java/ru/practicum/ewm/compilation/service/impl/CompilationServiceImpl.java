@@ -14,7 +14,6 @@ import ru.practicum.ewm.compilation.dto.CompilationUpdateRequest;
 import ru.practicum.ewm.compilation.mapper.CompilationMapper;
 import ru.practicum.ewm.compilation.model.Compilation;
 import ru.practicum.ewm.compilation.service.CompilationService;
-import ru.practicum.ewm.event.service.EventService;
 import ru.practicum.ewm.event.utils.EventSearchUtil;
 import ru.practicum.ewm.exeption.exemptions.NotFoundException;
 

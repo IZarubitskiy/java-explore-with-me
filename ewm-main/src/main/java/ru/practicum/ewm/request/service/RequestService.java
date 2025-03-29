@@ -1,4 +1,5 @@
 package ru.practicum.ewm.request.service;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.practicum.ewm.request.dto.ParticipationRequestDto;

@@ -1,4 +1,5 @@
 package ru.practicum.ewm.request.mapper;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ru.practicum.ewm.request.dto.ParticipationRequestDto;

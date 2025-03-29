@@ -16,7 +16,7 @@ public class UserSearchUtilImpl implements UserSearchUtil {
     private final UserRepository userRepository;
 
 
-@Override
+    @Override
     public User getById(Long userId) {
         log.info("Searching User with id={}", userId);
         return userRepository.findById(userId)

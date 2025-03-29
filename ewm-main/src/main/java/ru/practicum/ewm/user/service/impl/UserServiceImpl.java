@@ -8,7 +8,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.exeption.exemptions.DuplicationException;
-import ru.practicum.ewm.exeption.exemptions.NotFoundException;
 import ru.practicum.ewm.user.dao.UserRepository;
 import ru.practicum.ewm.user.dto.UserCreateRequest;
 import ru.practicum.ewm.user.dto.UserResponse;
@@ -16,7 +15,6 @@ import ru.practicum.ewm.user.mapper.UserMapper;
 import ru.practicum.ewm.user.model.User;
 import ru.practicum.ewm.user.service.UserService;
 import ru.practicum.ewm.user.utils.UserSearchUtil;
-import ru.practicum.ewm.user.utils.impl.UserSearchUtilImpl;
 
 import java.util.Collection;
 import java.util.List;
