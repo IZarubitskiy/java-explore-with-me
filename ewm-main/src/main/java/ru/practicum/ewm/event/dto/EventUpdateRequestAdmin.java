@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import ru.practicum.ewm.event.model.Location;
 import ru.practicum.ewm.event.model.enums.EventStateAction;
 
 import java.time.LocalDateTime;
@@ -26,7 +25,7 @@ public class EventUpdateRequestAdmin {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     LocalDateTime eventDate;
 
-    Location location;
+    LocationDto location;
     Boolean paid;
     Integer participantLimit;
     Boolean requestModeration;

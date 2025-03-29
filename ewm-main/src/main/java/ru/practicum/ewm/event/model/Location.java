@@ -1,6 +1,5 @@
 package ru.practicum.ewm.event.model;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

@@ -5,7 +5,6 @@ import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import ru.practicum.ewm.event.model.Location;
 import ru.practicum.ewm.event.model.enums.EventStateAction;
 import ru.practicum.ewm.event.validation.EventDateTime;
 
@@ -31,7 +30,7 @@ public class EventUpdateRequestUser {
     String title;
 
     Long category;
-    Location location;
+    LocationDto location;
     Boolean paid;
 
     @PositiveOrZero

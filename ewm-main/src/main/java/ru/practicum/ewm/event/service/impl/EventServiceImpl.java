@@ -109,7 +109,7 @@ public class EventServiceImpl implements EventService {
 
         return page.stream()
                 .map(event -> {
-                    event.setConfirmedRequests((long) eventIdToConfirmedRequests.getOrDefault(
+                    event.setConfirmedRequests(eventIdToConfirmedRequests.getOrDefault(
                             event.getId(),
                             Collections.emptyList()).size());
                     return eventMapper.toFullDto(event);
@@ -201,11 +201,12 @@ public class EventServiceImpl implements EventService {
 
     @Override
     @Transactional
-    public EventFullDto createEvent(Long userId, EventCreateRequest newEventDto) {
-        Event event = eventMapper.toEvent(newEventDto);
-        Location location = locationSearchUtil.findById(newEventDto.getLocation().getLat(),
-                newEventDto.getLocation().getLon());
-
+    public EventFullDto createEvent(Long userId, EventCreateRequest eventCreateRequest) {
+        System.out.println(eventCreateRequest);
+        Event event = eventMapper.toEvent(eventCreateRequest);
+        Location location = locationSearchUtil.findById(eventCreateRequest.getLocation().getLat(),
+                eventCreateRequest.getLocation().getLon());
+        System.out.println(event);
         event.setInitiator(userSearchUtil.getById(userId));
         event.setLocation(location);
 

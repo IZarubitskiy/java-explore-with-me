@@ -17,7 +17,6 @@ import java.util.Set;
 @AllArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class EventGetRequestPublic {
-
     String text;
     Set<Long> categories;
     Boolean paid;
