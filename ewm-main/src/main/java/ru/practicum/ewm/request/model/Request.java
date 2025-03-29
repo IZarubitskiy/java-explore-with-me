@@ -9,36 +9,33 @@ import ru.practicum.ewm.user.model.User;
 
 import java.time.LocalDateTime;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "requests", schema = "public")
-@EqualsAndHashCode(of = {"event", "requester"})
 @Getter
 @Setter
+@Builder
 @ToString
+@Table(name = "requests")
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@NoArgsConstructor
+@AllArgsConstructor
 public class Request {
-
     @Id
+    @Column(name = "request_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(nullable = false)
+    @Column(name = "created", nullable = false)
     LocalDateTime created;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "event_id", nullable = false)
-    @ToString.Exclude
     Event event;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "requester_id", nullable = false)
-    @ToString.Exclude
     User requester;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     RequestStatus status;
 }

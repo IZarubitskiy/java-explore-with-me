@@ -31,10 +31,7 @@ import ru.practicum.ewm.event.service.EventService;
 import ru.practicum.ewm.event.utils.EventSearchCriteria;
 import ru.practicum.ewm.event.utils.EventSearchUtil;
 import ru.practicum.ewm.event.utils.LocationSearchUtil;
-import ru.practicum.ewm.exeption.exemptions.EventExeption;
-import ru.practicum.ewm.exeption.exemptions.EventRequestExeption;
-import ru.practicum.ewm.exeption.exemptions.LimitExeption;
-import ru.practicum.ewm.exeption.exemptions.NotFoundException;
+import ru.practicum.ewm.exeption.exemptions.*;
 import ru.practicum.ewm.request.dao.RequestRepository;
 import ru.practicum.ewm.request.dto.ParticipationRequestDto;
 import ru.practicum.ewm.request.mapper.RequestMapper;
@@ -73,14 +70,14 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Collection<EventFullDto> getAllEventsAdmin(EventGetRequestAdmin params) {
-        Set<Long> users = params.getUsers();
-        Set<String> states = params.getStates();
-        Set<Long> categories = params.getCategories();
-        LocalDateTime rangeStart = params.getRangeStart();
-        LocalDateTime rangeEnd = params.getRangeEnd();
-        Integer from = params.getFrom();
-        Integer size = params.getSize();
+    public Collection<EventFullDto> getAllEventsAdmin(EventGetRequestAdmin eventGetRequestAdmin) {
+        Set<Long> users = eventGetRequestAdmin.getUsers();
+        Set<String> states = eventGetRequestAdmin.getStates();
+        Set<Long> categories = eventGetRequestAdmin.getCategories();
+        LocalDateTime rangeStart = eventGetRequestAdmin.getRangeStart();
+        LocalDateTime rangeEnd = eventGetRequestAdmin.getRangeEnd();
+        Integer from = eventGetRequestAdmin.getFrom();
+        Integer size = eventGetRequestAdmin.getSize();
 
         int pageNumber = from / size;
         Pageable pageable = PageRequest.of(pageNumber, size);
@@ -118,17 +115,17 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Collection<EventShortDto> getAllEventsPublic(EventGetRequestPublic params) {
-        String text = params.getText();
-        Set<Long> categories = params.getCategories();
-        Boolean paid = params.getPaid();
-        LocalDateTime rangeStart = params.getRangeStart();
-        LocalDateTime rangeEnd = params.getRangeEnd();
-        Boolean onlyAvailable = params.getOnlyAvailable();
-        SortType sort = params.getSort();
-        Integer from = params.getFrom();
-        Integer size = params.getSize();
-        HttpServletRequest httpServletRequest = params.getHttpServletRequest();
+    public Collection<EventShortDto> getAllEventsPublic(EventGetRequestPublic eventGetRequestPublic) {
+        String text = eventGetRequestPublic.getText();
+        Set<Long> categories = eventGetRequestPublic.getCategories();
+        Boolean paid = eventGetRequestPublic.getPaid();
+        LocalDateTime rangeStart = eventGetRequestPublic.getRangeStart();
+        LocalDateTime rangeEnd = eventGetRequestPublic.getRangeEnd();
+        Boolean onlyAvailable = eventGetRequestPublic.getOnlyAvailable();
+        SortType sort = eventGetRequestPublic.getSort();
+        Integer from = eventGetRequestPublic.getFrom();
+        Integer size = eventGetRequestPublic.getSize();
+        HttpServletRequest httpServletRequest = eventGetRequestPublic.getHttpServletRequest();
 
         Pageable pageable = PageRequest.of(from / size, size);
 
@@ -173,11 +170,11 @@ public class EventServiceImpl implements EventService {
         LocalDateTime updateStartDate = eventUpdateRequestAdmin.getEventDate();
 
         if (event.getState().equals(EventState.PUBLISHED) && LocalDateTime.now().isAfter(event.getPublishedOn().plusHours(1))) {
-            throw new EventExeption("Change event no later than one hour before the start");
+            throw new PublicationException("Change event no later than one hour before the start");
         }
 
         if (updateStartDate != null && updateStartDate.isBefore(LocalDateTime.now())) {
-            throw new EventExeption("Date and time has already arrived");
+            throw new UpdateStartDateException("Date and time has already arrived");
         }
 
         EventStateAction updateStateAction = getUpdateStateAction(eventUpdateRequestAdmin, event);
@@ -202,11 +199,10 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional
     public EventFullDto createEvent(Long userId, EventCreateRequest eventCreateRequest) {
-        System.out.println(eventCreateRequest);
         Event event = eventMapper.toEvent(eventCreateRequest);
         Location location = locationSearchUtil.findById(eventCreateRequest.getLocation().getLat(),
                 eventCreateRequest.getLocation().getLon());
-        System.out.println(event);
+
         event.setInitiator(userSearchUtil.getById(userId));
         event.setLocation(location);
 
@@ -224,7 +220,7 @@ public class EventServiceImpl implements EventService {
         Event event = eventSearchUtil.findById(eventId);
 
         if (event.getState() != EventState.PUBLISHED) {
-            throw new EventExeption("Event must be published");
+            throw new GetPublicEventException("Event must be published");
         }
 
         saveViewInStatistic("/events/" + eventId, httpServletRequest.getRemoteAddr());
@@ -235,8 +231,8 @@ public class EventServiceImpl implements EventService {
                 List.of("/events/" + eventId),
                 true);
         if (!getResponses.isEmpty()) {
-            ViewStats getResponse = getResponses.getFirst();
-            event.setViews(getResponse.getHits());
+            ViewStats viewStats = getResponses.getFirst();
+            event.setViews(viewStats.getHits());
         }
         return eventMapper.toFullDto(eventRepository.save(event));
     }
@@ -247,7 +243,7 @@ public class EventServiceImpl implements EventService {
         Event event = eventSearchUtil.findByIdAndInitiatorId(userId, eventId);
 
         if (event.getState().equals(EventState.PUBLISHED)) {
-            throw new EventExeption("Event with eventId = " + eventId + "has already been published");
+            throw new AlreadyPublishedException("Event with eventId = " + eventId + "has already been published");
         }
 
         stateChanger(event, eventUpdateRequestUser.getStateAction());
@@ -300,7 +296,7 @@ public class EventServiceImpl implements EventService {
         int confirmedSize = updateRequest.getStatus().equals(RequestStatus.CONFIRMED) ? size : 0;
 
         if (event.getParticipantLimit() != 0 && confirmedCount + confirmedSize > event.getParticipantLimit()) {
-            throw new LimitExeption("Event limit exceed");
+            throw new TooManyRequestsException("Event limit exceed");
         }
 
         List<ParticipationRequestDto> confirmedRequests = new ArrayList<>();
@@ -312,7 +308,7 @@ public class EventServiceImpl implements EventService {
                 confirmedRequests.add(requestMapper.toRequestDto(request));
             } else if (updateRequest.getStatus().equals(RequestStatus.REJECTED)) {
                 if (request.getStatus().equals(RequestStatus.CONFIRMED)) {
-                    throw new EventRequestExeption("The request cannot be rejected if it is confirmed");
+                    throw new AlreadyConfirmedException("The request cannot be rejected if it is confirmed");
                 }
                 request.setStatus(RequestStatus.REJECTED);
                 rejectedRequests.add(requestMapper.toRequestDto(request));
@@ -351,16 +347,16 @@ public class EventServiceImpl implements EventService {
         return statisticClient.getStats(start, end, uris, unique);
     }
 
-    private EventStateAction getUpdateStateAction(EventUpdateRequestAdmin adminPatchEventDto, Event event) {
-        EventStateAction updateStateAction = adminPatchEventDto.getStateAction();
+    private EventStateAction getUpdateStateAction(EventUpdateRequestAdmin eventUpdateRequestAdmin, Event event) {
+        EventStateAction updateStateAction = eventUpdateRequestAdmin.getStateAction();
 
         if (updateStateAction != null && !event.getState().equals(EventState.PENDING) && updateStateAction.equals(EventStateAction.PUBLISH_EVENT)) {
-            throw new EventExeption("The event can only be published during the pending stage");
+            throw new PublicationException("The event can only be published during the pending stage");
         }
 
         if (updateStateAction != null && updateStateAction.equals(EventStateAction.REJECT_EVENT)
                 && event.getState().equals(EventState.PUBLISHED)) {
-            throw new EventExeption("Cannot reject a published event");
+            throw new PublicationException("Cannot reject a published event");
         }
         return updateStateAction;
     }

@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
-import ru.practicum.ewm.exeption.exemptions.DuplicationException;
-import ru.practicum.ewm.exeption.exemptions.EventExeption;
-import ru.practicum.ewm.exeption.exemptions.LimitExeption;
-import ru.practicum.ewm.exeption.exemptions.NotFoundException;
+import ru.practicum.ewm.exeption.exemptions.*;
 
 import java.util.List;
 
@@ -23,7 +20,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse handleAlreadyExistException(DuplicationException e) {
+    public ErrorResponse handleAlreadyExistException(AlreadyExistsException e) {
         String reasonMessage = "Field already exists";
         log.error("CONFLICT: {}", reasonMessage, e);
         return ErrorResponse.builder()
@@ -36,8 +33,21 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse handleAlreadyPublishedException(EventExeption e) {
+    public ErrorResponse handleAlreadyPublishedException(AlreadyPublishedException e) {
         String reasonMessage = "Event already published";
+        log.error("CONFLICT: {}", reasonMessage, e);
+        return ErrorResponse.builder()
+                .errors(List.of(e.getMessage()))
+                .message(e.getMessage())
+                .reason(reasonMessage)
+                .status(HttpStatus.CONFLICT.toString())
+                .build();
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handlePublicationException(PublicationException e) {
+        String reasonMessage = "Publication failed";
         log.error("CONFLICT: {}", reasonMessage, e);
         return ErrorResponse.builder()
                 .errors(List.of(e.getMessage()))
@@ -73,6 +83,18 @@ public class ErrorHandler {
                 .build();
     }
 
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleUpdateStartDateException(UpdateStartDateException e) {
+        String reasonMessage = "Update start date failed";
+        log.error("BAD_REQUEST: {}", reasonMessage, e);
+        return ErrorResponse.builder()
+                .errors(List.of(e.getMessage()))
+                .message(e.getMessage())
+                .reason(reasonMessage)
+                .status(HttpStatus.BAD_REQUEST.toString())
+                .build();
+    }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -128,7 +150,20 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse handleRequestLimitException(LimitExeption e) {
+    public ErrorResponse handleNotPublishedEventRequestException(NotPublishedEventRequestException e) {
+        String reasonMessage = "Request to not published event";
+        log.error("CONFLICT: {}", reasonMessage, e);
+        return ErrorResponse.builder()
+                .errors(List.of(e.getMessage()))
+                .message(e.getMessage())
+                .reason(reasonMessage)
+                .status(HttpStatus.CONFLICT.toString())
+                .build();
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleRequestLimitException(RequestLimitException e) {
         String reasonMessage = "Limit request";
         log.error("CONFLICT: {}", reasonMessage, e);
         return ErrorResponse.builder()
@@ -139,4 +174,81 @@ public class ErrorHandler {
                 .build();
     }
 
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleDuplicateRequestException(DuplicateRequestException e) {
+        String reasonMessage = "Duplicate request";
+        log.error("CONFLICT: {}", reasonMessage, e);
+        return ErrorResponse.builder()
+                .errors(List.of(e.getMessage()))
+                .message(e.getMessage())
+                .reason(reasonMessage)
+                .status(HttpStatus.CONFLICT.toString())
+                .build();
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleInitiatorRequestException(InitiatorRequestException e) {
+        String reasonMessage = "Initiator request";
+        log.error("CONFLICT: {}", reasonMessage, e);
+        return ErrorResponse.builder()
+                .errors(List.of(e.getMessage()))
+                .message(e.getMessage())
+                .reason(reasonMessage)
+                .status(HttpStatus.CONFLICT.toString())
+                .build();
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleGetPublicEventException(GetPublicEventException e) {
+        String reasonMessage = "Get event exception";
+        log.error("CONFLICT: {}", reasonMessage, e);
+        return ErrorResponse.builder()
+                .errors(List.of(e.getMessage()))
+                .message(e.getMessage())
+                .reason(reasonMessage)
+                .status(HttpStatus.NOT_FOUND.toString())
+                .build();
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleException(RuntimeException e) {
+        String reasonMessage = "Unknown error";
+        log.error("INTERNAL_SERVER_ERROR: {}", reasonMessage, e);
+        return ErrorResponse.builder()
+                .errors(List.of(e.getMessage()))
+                .message(e.getMessage())
+                .reason(reasonMessage)
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.toString())
+                .build();
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleTooManyRequestsException(TooManyRequestsException e) {
+        String reasonMessage = "Too many requests";
+        log.error("CONFLICT: {}", reasonMessage, e);
+        return ErrorResponse.builder()
+                .errors(List.of(e.getMessage()))
+                .message(e.getMessage())
+                .reason(reasonMessage)
+                .status(HttpStatus.CONFLICT.toString())
+                .build();
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleAlreadyConfirmedException(AlreadyConfirmedException e) {
+        String reasonMessage = "Request already confirmed";
+        log.error("CONFLICT: {}", reasonMessage, e);
+        return ErrorResponse.builder()
+                .errors(List.of(e.getMessage()))
+                .message(e.getMessage())
+                .reason(reasonMessage)
+                .status(HttpStatus.CONFLICT.toString())
+                .build();
+    }
 }

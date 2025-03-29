@@ -17,6 +17,14 @@ public class EventSearchUtilImpl implements EventSearchUtil {
     private final EventRepository eventRepository;
 
     @Override
+    public Event findByIdAndInitiatorId(Long userId, Long eventId) {
+        log.info("Searching event with id = {} for user with id = {}", eventId, userId);
+        return eventRepository.findByIdAndInitiatorId(eventId, userId)
+                .orElseThrow(() -> new NotFoundException("User with id = " + userId + " and event with id = " + eventId
+                        + " not found"));
+    }
+
+    @Override
     public Event findById(Long eventId) {
         log.info("Searching event with id = {}", eventId);
         return eventRepository.findById(eventId)
@@ -27,13 +35,5 @@ public class EventSearchUtilImpl implements EventSearchUtil {
     public Set<Event> findAllByIdIn(Set<Long> ids) {
         log.info("Searching events with ids = {}", ids);
         return eventRepository.findAllByIdIn(ids);
-    }
-
-    @Override
-    public Event findByIdAndInitiatorId(Long userId, Long eventId) {
-        log.info("Searching event with id = {} for user with id = {}", eventId, userId);
-        return eventRepository.findByIdAndInitiatorId(eventId, userId)
-                .orElseThrow(() -> new NotFoundException("User with id = " + userId + " and event with id = " + eventId
-                        + " not found"));
     }
 }

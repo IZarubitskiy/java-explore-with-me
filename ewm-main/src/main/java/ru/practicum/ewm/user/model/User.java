@@ -1,7 +1,6 @@
 package ru.practicum.ewm.user.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,7 +12,6 @@ import lombok.experimental.FieldDefaults;
 @ToString
 @Table(name = "users")
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-@Builder
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

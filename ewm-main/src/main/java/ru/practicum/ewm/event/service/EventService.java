@@ -9,9 +9,9 @@ import java.util.Collection;
 public interface EventService {
     Collection<EventShortDto> getAllEvents(Long userId, Integer from, Integer size);
 
-    Collection<EventFullDto> getAllEventsAdmin(EventGetRequestAdmin params);
+    Collection<EventFullDto> getAllEventsAdmin(EventGetRequestAdmin eventGetRequestAdmin);
 
-    Collection<EventShortDto> getAllEventsPublic(EventGetRequestPublic params);
+    Collection<EventShortDto> getAllEventsPublic(EventGetRequestPublic eventGetRequestPublic);
 
     EventFullDto patchEventById(Long eventId, EventUpdateRequestAdmin eventUpdateRequestAdmin);
 
@@ -21,9 +21,9 @@ public interface EventService {
 
     EventFullDto getEventByIdPublic(Long eventId, HttpServletRequest httpServletRequest);
 
-    EventFullDto updateEvent(Long userId, Long eventId, EventUpdateRequestUser updateRequest);
+    EventFullDto updateEvent(Long userId, Long eventId, EventUpdateRequestUser eventUpdateRequestUser);
 
     Collection<ParticipationRequestDto> getRequests(Long userId, Long eventId);
 
-    EventRequestStatusUpdateResult updateRequest(Long userId, Long eventId, EventRequestStatusUpdateRequest updateRequest);
+    EventRequestStatusUpdateResult updateRequest(Long userId, Long eventId, EventRequestStatusUpdateRequest eventRequestStatusUpdateRequest);
 }
