@@ -7,13 +7,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ru.practicum.ewm.exeption.exemptions.AlreadyExistsException;
 import ru.practicum.ewm.category.dao.CategoryRepository;
 import ru.practicum.ewm.category.dto.CategoryRequest;
 import ru.practicum.ewm.category.dto.CategoryResponse;
 import ru.practicum.ewm.category.mapper.CategoryMapper;
 import ru.practicum.ewm.category.model.Category;
 import ru.practicum.ewm.category.service.CategoryService;
-import ru.practicum.ewm.exeption.exemptions.DuplicationException;
 import ru.practicum.ewm.exeption.exemptions.NotFoundException;
 
 import java.util.Collection;
@@ -77,7 +77,7 @@ public class CategoryServiceImpl implements CategoryService {
     private RuntimeException checkUniqueConstraint(RuntimeException e, String categoryName) {
         if (e.getMessage().contains("categories_name_key")) {
             log.warn("Category with name '{}' already exists", categoryName);
-            return new DuplicationException(String.format("Category with name '%s' already exists", categoryName));
+            return new AlreadyExistsException(String.format("Category with name '%s' already exists", categoryName));
         }
         log.warn("Data integrity violation", e);
         return e;

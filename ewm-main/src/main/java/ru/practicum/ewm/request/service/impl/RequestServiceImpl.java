@@ -6,10 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.practicum.ewm.event.model.Event;
 import ru.practicum.ewm.event.model.enums.EventState;
 import ru.practicum.ewm.event.utils.EventSearchUtil;
-import ru.practicum.ewm.exeption.exemptions.DuplicationException;
-import ru.practicum.ewm.exeption.exemptions.EventRequestExeption;
-import ru.practicum.ewm.exeption.exemptions.LimitExeption;
-import ru.practicum.ewm.exeption.exemptions.NotFoundException;
+import ru.practicum.ewm.exeption.exemptions.*;
 import ru.practicum.ewm.request.dao.RequestRepository;
 import ru.practicum.ewm.request.dto.ParticipationRequestDto;
 import ru.practicum.ewm.request.mapper.RequestMapper;
@@ -37,7 +34,7 @@ public class RequestServiceImpl implements RequestService {
     public Collection<ParticipationRequestDto> getAllUserRequest(Long userId) {
         userSearchUtil.getById(userId);
         Set<Request> requests = requestRepository.findAllByRequesterId(userId);
-        log.info("GET requests by userId = {}", userId);
+        log.info("GET requests by userId = {}",userId);
         return requests.stream().map(requestMapper::toRequestDto).toList();
     }
 
@@ -45,20 +42,20 @@ public class RequestServiceImpl implements RequestService {
     public ParticipationRequestDto createRequest(Long userId, Long eventId) {
         Optional<Request> requestOptional = requestRepository.findByRequesterIdAndEventId(userId, eventId);
         if (requestOptional.isPresent()) {
-            throw new DuplicationException("Request can be only one");
+            throw new DuplicateRequestException("Request can be only one");
         }
         Event event = eventSearchUtil.findById(eventId);
         User user = userSearchUtil.getById(userId);
         RequestStatus status = RequestStatus.PENDING;
 
         if (!event.getState().equals(EventState.PUBLISHED)) {
-            throw new EventRequestExeption("Event must be published");
+            throw new NotPublishedEventRequestException("Event must be published");
         }
 
         int requestsSize = requestRepository.findAllByEventId(eventId).size();
 
         if (event.getParticipantLimit() != 0 && requestsSize >= event.getParticipantLimit()) {
-            throw new LimitExeption("No more seats for the event");
+            throw new RequestLimitException("No more seats for the event");
         }
 
         if (event.getParticipantLimit() == 0) {
@@ -66,7 +63,7 @@ public class RequestServiceImpl implements RequestService {
         }
 
         if (event.getInitiator().getId().equals(user.getId())) {
-            throw new EventRequestExeption("Initiator can't submit a request for event");
+            throw new InitiatorRequestException("Initiator can't submit a request for event");
         }
 
         Request request = Request.builder()
@@ -75,7 +72,7 @@ public class RequestServiceImpl implements RequestService {
                 .event(event)
                 .status(status)
                 .build();
-        log.info("POST request body = {}", request);
+        log.info("POST request body = {}",request);
         return requestMapper.toRequestDto(requestRepository.save(request));
     }
 
@@ -85,7 +82,7 @@ public class RequestServiceImpl implements RequestService {
         Request request = requestRepository.findById(requestId).orElseThrow(() ->
                 new NotFoundException("Request not found"));
         request.setStatus(RequestStatus.CANCELED);
-        log.info("Cancel request by requestId = {} and userId = {}", requestId, userId);
+        log.info("Cancel request by requestId = {} and userId = {}",requestId,userId);
         return requestMapper.toRequestDto(requestRepository.save(request));
     }
 }

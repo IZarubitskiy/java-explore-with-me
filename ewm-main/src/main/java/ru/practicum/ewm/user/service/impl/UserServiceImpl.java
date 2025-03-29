@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.practicum.ewm.exeption.exemptions.DuplicationException;
+import ru.practicum.ewm.exeption.exemptions.AlreadyExistsException;
 import ru.practicum.ewm.user.dao.UserRepository;
 import ru.practicum.ewm.user.dto.UserCreateRequest;
 import ru.practicum.ewm.user.dto.UserResponse;
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
         } catch (DataIntegrityViolationException e) {
             if (e.getMessage().contains("users_email_key")) {
                 log.warn("User with email '{}' already exists", userCreateRequest.getEmail());
-                throw new DuplicationException(String.format("User with email '%s' already exists", userCreateRequest.getEmail()));
+                throw new AlreadyExistsException(String.format("User with email '%s' already exists", userCreateRequest.getEmail()));
             } else {
                 throw e;
             }
