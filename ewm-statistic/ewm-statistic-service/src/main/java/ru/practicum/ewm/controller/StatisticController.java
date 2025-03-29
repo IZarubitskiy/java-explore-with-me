@@ -36,9 +36,4 @@ public class StatisticController {
         log.info("Get request to /stats");
         return statisticsService.getStatistics(start, end, uris, unique);
     }
-
-    @RequestMapping("/home")
-    public String homePage() {
-        return "<h1>Приветствуем вас, в приложении Котограм<h1>";
-    }
 }

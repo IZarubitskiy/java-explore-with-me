@@ -8,7 +8,7 @@ import ru.practicum.ewm.client.StatisticClient;
 @Configuration
 public class AppConfig {
     @Bean
-    public StatisticClient getStatsClient(@Value("${stats-server.url:http://localhost:9090}") String address) {
+    public StatisticClient getStatisticClient(@Value("${stats-server.url:http://localhost:9090}") String address) {
         return new StatisticClient(address);
     }
 }

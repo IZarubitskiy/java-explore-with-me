@@ -12,12 +12,12 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
-@Table(name = "endpoint_hit")
+@Table(name = "hits")
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class EndpointHit {
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     Long id;
 
     @Column(name = "app", nullable = false)
@@ -29,6 +29,6 @@ public class EndpointHit {
     @Column(name = "uri", nullable = false)
     String uri;
 
-    @Column(name = "timestamp", nullable = false, columnDefinition = "timestamp")
+    @Column(name = "timestamp", nullable = false, columnDefinition = "TIMESTAMP")
     LocalDateTime timestamp;
 }

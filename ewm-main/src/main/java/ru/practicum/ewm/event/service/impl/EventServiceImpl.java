@@ -152,7 +152,7 @@ public class EventServiceImpl implements EventService {
                 .and(EventSearchCriteria.onlyPublished());
         Page<Event> page = eventRepository.findAll(specification, pageable);
 
-        saveViewInStatistic("/events", httpServletRequest.getRemoteAddr());
+
 
         log.info("Get events with {text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size} = ({},{},{},{},{},{},{},{},{})",
                 text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size);
@@ -223,7 +223,6 @@ public class EventServiceImpl implements EventService {
             throw new GetPublicEventException("Event must be published");
         }
 
-        saveViewInStatistic("/events/" + eventId, httpServletRequest.getRemoteAddr());
 
         List<ViewStats> getResponses = loadViewFromStatistic(
                 event.getPublishedOn(),
@@ -233,6 +232,8 @@ public class EventServiceImpl implements EventService {
         if (!getResponses.isEmpty()) {
             ViewStats viewStats = getResponses.getFirst();
             event.setViews(viewStats.getHits());
+        }else {
+            event.setViews(event.getViews()+1);
         }
         return eventMapper.toFullDto(eventRepository.save(event));
     }
