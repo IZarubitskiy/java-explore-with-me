@@ -153,7 +153,6 @@ public class EventServiceImpl implements EventService {
         Page<Event> page = eventRepository.findAll(specification, pageable);
 
 
-
         log.info("Get events with {text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size} = ({},{},{},{},{},{},{},{},{})",
                 text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size);
 
@@ -232,8 +231,8 @@ public class EventServiceImpl implements EventService {
         if (!getResponses.isEmpty()) {
             ViewStats viewStats = getResponses.getFirst();
             event.setViews(viewStats.getHits());
-        }else {
-            event.setViews(event.getViews()+1);
+        } else {
+            event.setViews(event.getViews() + 1);
         }
         return eventMapper.toFullDto(eventRepository.save(event));
     }
