@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
 import ru.practicum.ewm.exeption.StatisticClientException;
@@ -16,20 +15,23 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
-@Component
 public class StatisticClient {
+    private final RestClient restClient;
+    private final String statsServerUri;
 
-    private final RestClient restClient = RestClient.create();
-    private static final String STATS_SERVER_URI = "http://localhost:9090";
+    public StatisticClient(String uri) {
+        restClient = RestClient.create(uri);
+        statsServerUri = uri;
+    }
 
-    public void hit(HitCreateRequest hitCreateRequest) {
-        String currentUri = UriComponentsBuilder.fromHttpUrl(STATS_SERVER_URI).path("/hit").toUriString();
+    public void hit(HitCreateRequest hitRequest) {
+        String currentUri = UriComponentsBuilder.fromHttpUrl(statsServerUri).path("/hit").toUriString();
         log.info("Post request to server uri = {}", currentUri);
 
         restClient.post()
                 .uri(currentUri)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(hitCreateRequest)
+                .body(hitRequest)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, ((request, response) -> {
                     throw new StatisticClientException(response.getStatusCode().value(), response.getBody().toString());
@@ -41,7 +43,7 @@ public class StatisticClient {
     }
 
     public List<ViewStats> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
-        String currentUri = UriComponentsBuilder.fromHttpUrl(STATS_SERVER_URI)
+        String currentUri = UriComponentsBuilder.fromHttpUrl(statsServerUri)
                 .path("/stats")
                 .queryParam("start", start)
                 .queryParam("end", end)

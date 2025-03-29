@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import ru.practicum.ewm.request.model.enumerates.RequestStatus;
+import ru.practicum.ewm.request.model.enums.RequestStatus;
 
 import java.time.LocalDateTime;
 

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import ru.practicum.ewm.event.model.Event;
-import ru.practicum.ewm.request.model.enumerates.RequestStatus;
+import ru.practicum.ewm.request.model.enums.RequestStatus;
 import ru.practicum.ewm.user.model.User;
 
 import java.time.LocalDateTime;

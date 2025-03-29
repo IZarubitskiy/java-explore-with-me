@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import ru.practicum.ewm.event.model.enumerate.SortType;
+import ru.practicum.ewm.event.model.enums.SortType;
 
 import java.time.LocalDateTime;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package ru.practicum.ewm.event.model.enumerate;
+package ru.practicum.ewm.event.model.enums;
 
 public enum EventStateAction {
     PUBLISH_EVENT,

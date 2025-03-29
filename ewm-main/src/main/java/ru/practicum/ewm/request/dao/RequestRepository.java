@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 import ru.practicum.ewm.request.model.Request;
-import ru.practicum.ewm.request.model.enumerates.RequestStatus;
+import ru.practicum.ewm.request.model.enums.RequestStatus;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package ru.practicum.ewm.request.model.enumerates;
+package ru.practicum.ewm.request.model.enums;
 
 public enum RequestStatus {
     PENDING,

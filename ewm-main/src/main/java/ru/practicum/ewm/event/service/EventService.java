@@ -9,9 +9,9 @@ import java.util.Collection;
 public interface EventService {
     Collection<EventShortDto> getAllEvents(Long userId, Integer from, Integer size);
 
-    Collection<EventFullDto> getAllEventsAdmin(GetAllEventsAdminParams params);
+    Collection<EventFullDto> getAllEventsAdmin(EventGetRequestAdmin params);
 
-    Collection<EventShortDto> getAllEventsPublic(GetAllEventsPublicParams params);
+    Collection<EventShortDto> getAllEventsPublic(EventGetRequestPublic params);
 
     EventFullDto patchEventById(Long eventId, EventUpdateRequestAdmin eventUpdateRequestAdmin);
 

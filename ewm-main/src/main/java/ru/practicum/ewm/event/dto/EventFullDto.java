@@ -5,7 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import ru.practicum.ewm.category.dto.CategoryResponse;
 import ru.practicum.ewm.event.model.Location;
-import ru.practicum.ewm.event.model.enumerate.EventState;
+import ru.practicum.ewm.event.model.enums.EventState;
 import ru.practicum.ewm.user.dto.UserShortDto;
 
 import java.time.LocalDateTime;
