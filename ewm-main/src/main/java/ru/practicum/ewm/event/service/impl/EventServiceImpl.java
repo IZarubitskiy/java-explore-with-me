@@ -1,6 +1,5 @@
 package ru.practicum.ewm.event.service.impl;
 
-import dto.HitCreateRequest;
 import dto.ViewStats;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
