@@ -152,7 +152,6 @@ public class EventServiceImpl implements EventService {
                 .and(EventSearchCriteria.onlyPublished());
         Page<Event> page = eventRepository.findAll(specification, pageable);
 
-
         log.info("Get events with {text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size} = ({},{},{},{},{},{},{},{},{})",
                 text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size);
 
@@ -222,7 +221,6 @@ public class EventServiceImpl implements EventService {
             throw new GetPublicEventException("Event must be published");
         }
 
-
         List<ViewStats> getResponses = loadViewFromStatistic(
                 event.getPublishedOn(),
                 LocalDateTime.now(),
@@ -231,9 +229,8 @@ public class EventServiceImpl implements EventService {
         if (!getResponses.isEmpty()) {
             ViewStats viewStats = getResponses.getFirst();
             event.setViews(viewStats.getHits());
-        } else {
-            event.setViews(event.getViews() + 1);
         }
+        event.setViews(1L);
         return eventMapper.toFullDto(eventRepository.save(event));
     }
 
@@ -332,15 +329,6 @@ public class EventServiceImpl implements EventService {
                     EventStateAction.REJECT_EVENT, EventState.CANCELED);
             event.setState(state.get(stateAction));
         }
-    }
-
-    private void saveViewInStatistic(String uri, String ip) {
-        HitCreateRequest hitRequest = HitCreateRequest.builder()
-                .app("ewm-main-service")
-                .uri(uri)
-                .ip(ip)
-                .build();
-        statisticClient.hit(hitRequest);
     }
 
     private List<ViewStats> loadViewFromStatistic(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
