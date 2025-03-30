@@ -9,6 +9,8 @@ import java.lang.annotation.RetentionPolicy;
 @Constraint(validatedBy = EventDateTimeValidator.class)
 public @interface EventDateTime {
     String message() default "DateTime should be no earlier than 2 hours from now";
+
     Class<?>[] groups() default {};
+
     Class<?>[] payload() default {};
 }

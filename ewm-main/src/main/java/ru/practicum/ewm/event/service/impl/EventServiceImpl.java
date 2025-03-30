@@ -234,7 +234,6 @@ public class EventServiceImpl implements EventService {
             ViewStats viewStats = getResponses.getFirst();
             event.setViews(viewStats.getHits());
         }
-
         return eventMapper.toFullDto(eventRepository.save(event));
     }
 
@@ -340,6 +339,7 @@ public class EventServiceImpl implements EventService {
                 .app("ewm-main-service")
                 .uri(uri)
                 .ip(ip)
+                .timestamp(LocalDateTime.now())
                 .build();
         statisticClient.hit(hitRequest);
     }

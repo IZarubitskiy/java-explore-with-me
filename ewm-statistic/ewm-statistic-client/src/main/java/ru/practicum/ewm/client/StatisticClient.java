@@ -1,20 +1,22 @@
 package ru.practicum.ewm.client;
 
 
-import dto.HitCreateRequest;
-import dto.ViewStats;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
 import ru.practicum.ewm.exeption.StatisticClientException;
+import dto.HitCreateRequest;
+import dto.ViewStats;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
+@Service
 public class StatisticClient {
     private final RestClient restClient;
     private final String statsServerUri;
@@ -41,6 +43,7 @@ public class StatisticClient {
                 }))
                 .toBodilessEntity();
     }
+
 
     public List<ViewStats> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
         String currentUri = UriComponentsBuilder.fromHttpUrl(statsServerUri)
