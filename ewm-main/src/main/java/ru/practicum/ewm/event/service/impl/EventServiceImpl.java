@@ -152,7 +152,7 @@ public class EventServiceImpl implements EventService {
                 .and(EventSearchCriteria.onlyPublished());
         Page<Event> page = eventRepository.findAll(specification, pageable);
 
-        saveViewInStatistic(httpServletRequest);
+        saveViewInStatistic("/events", httpServletRequest.getRemoteAddr());
 
         log.info("Get events with {text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size} = ({},{},{},{},{},{},{},{},{})",
                 text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size);
@@ -223,7 +223,7 @@ public class EventServiceImpl implements EventService {
             throw new GetPublicEventException("Event must be published");
         }
 
-        saveViewInStatistic(httpServletRequest);
+        saveViewInStatistic("/events/" + eventId, httpServletRequest.getRemoteAddr());
 
         List<ViewStats> getResponses = loadViewFromStatistic(
                 event.getPublishedOn(),
@@ -234,6 +234,7 @@ public class EventServiceImpl implements EventService {
             ViewStats viewStats = getResponses.getFirst();
             event.setViews(viewStats.getHits());
         }
+
         return eventMapper.toFullDto(eventRepository.save(event));
     }
 
@@ -334,14 +335,14 @@ public class EventServiceImpl implements EventService {
         }
     }
 
-    private void saveViewInStatistic(HttpServletRequest httpServletRequest) {
-        statisticClient.hit(HitCreateRequest.builder()
-                .ip(httpServletRequest.getRemoteAddr())
+    private void saveViewInStatistic(String uri, String ip) {
+        HitCreateRequest hitRequest = HitCreateRequest.builder()
                 .app("ewm-main-service")
-                .uri(httpServletRequest.getRequestURI())
-                .build());
+                .uri(uri)
+                .ip(ip)
+                .build();
+        statisticClient.hit(hitRequest);
     }
-
 
     private List<ViewStats> loadViewFromStatistic(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
         return statisticClient.getStats(start, end, uris, unique);
