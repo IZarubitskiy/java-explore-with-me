@@ -234,7 +234,6 @@ public class EventServiceImpl implements EventService {
             ViewStats viewStats = getResponses.getFirst();
             event.setViews(viewStats.getHits());
         }
-
         return eventMapper.toFullDto(eventRepository.save(event));
     }
 

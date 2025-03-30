@@ -7,13 +7,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.practicum.ewm.exeption.exemptions.AlreadyExistsException;
 import ru.practicum.ewm.category.dao.CategoryRepository;
 import ru.practicum.ewm.category.dto.CategoryRequest;
 import ru.practicum.ewm.category.dto.CategoryResponse;
 import ru.practicum.ewm.category.mapper.CategoryMapper;
 import ru.practicum.ewm.category.model.Category;
 import ru.practicum.ewm.category.service.CategoryService;
+import ru.practicum.ewm.exeption.exemptions.AlreadyExistsException;
 import ru.practicum.ewm.exeption.exemptions.NotFoundException;
 
 import java.util.Collection;

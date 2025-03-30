@@ -34,7 +34,7 @@ public class RequestServiceImpl implements RequestService {
     public Collection<ParticipationRequestDto> getAllUserRequest(Long userId) {
         userSearchUtil.getById(userId);
         Set<Request> requests = requestRepository.findAllByRequesterId(userId);
-        log.info("GET requests by userId = {}",userId);
+        log.info("GET requests by userId = {}", userId);
         return requests.stream().map(requestMapper::toRequestDto).toList();
     }
 
@@ -72,7 +72,7 @@ public class RequestServiceImpl implements RequestService {
                 .event(event)
                 .status(status)
                 .build();
-        log.info("POST request body = {}",request);
+        log.info("POST request body = {}", request);
         return requestMapper.toRequestDto(requestRepository.save(request));
     }
 
@@ -82,7 +82,7 @@ public class RequestServiceImpl implements RequestService {
         Request request = requestRepository.findById(requestId).orElseThrow(() ->
                 new NotFoundException("Request not found"));
         request.setStatus(RequestStatus.CANCELED);
-        log.info("Cancel request by requestId = {} and userId = {}",requestId,userId);
+        log.info("Cancel request by requestId = {} and userId = {}", requestId, userId);
         return requestMapper.toRequestDto(requestRepository.save(request));
     }
 }
