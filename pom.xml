@@ -12,12 +12,12 @@
 
 	<name>Explore With Me</name>
 
-    <modules>
-        <module>ewm-statistic</module>
-        <module>ewm-main</module>
+	<modules>
+		<module>ewm-statistic</module>
+		<module>ewm-main</module>
 	</modules>
 
-    <groupId>ru.practicum</groupId>
+	<groupId>ru.practicum</groupId>
 	<artifactId>explore-with-me</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -33,37 +33,15 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>1.6.0.Beta1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>3.1.2</version>
-				<configuration>
-					<configLocation>checkstyle.xml</configLocation>
-					<failOnViolation>true</failOnViolation>
-					<logViolationsToConsole>true</logViolationsToConsole>
-					<includeTestSourceDirectory>true</includeTestSourceDirectory>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>check</goal>
-						</goals>
-						<phase>compile</phase>
-					</execution>
-				</executions>
-				<dependencies>
-					<dependency>
-						<groupId>com.puppycrawl.tools</groupId>
-						<artifactId>checkstyle</artifactId>
-						<version>10.21.2</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-		</plugins>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -220,28 +198,6 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-checkstyle-plugin</artifactId>
-						<version>3.1.2</version>
-						<configuration>
-							<configLocation>checkstyle.xml</configLocation>
-							<failOnViolation>true</failOnViolation>
-							<logViolationsToConsole>true</logViolationsToConsole>
-							<includeTestSourceDirectory>true</includeTestSourceDirectory>
-						</configuration>
-						<executions>
-							<execution>
-								<goals>
-									<goal>check</goal>
-								</goals>
-								<phase>compile</phase>
-							</execution>
-						</executions>
-						<dependencies>
-							<dependency>
-								<groupId>com.puppycrawl.tools</groupId>
-								<artifactId>checkstyle</artifactId>
-								<version>10.21.2</version>
-							</dependency>
-						</dependencies>
 					</plugin>
 					<plugin>
 						<groupId>com.github.spotbugs</groupId>
@@ -270,4 +226,5 @@
 			</build>
 		</profile>
 	</profiles>
+
 </project>
