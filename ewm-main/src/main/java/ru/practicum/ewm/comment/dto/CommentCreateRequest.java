@@ -22,4 +22,7 @@ public class CommentCreateRequest {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     LocalDateTime created = LocalDateTime.now();
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    LocalDateTime updated = created;
 }

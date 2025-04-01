@@ -17,8 +17,8 @@ public class CommentResponse {
     Long id;
     String text;
     Long eventId;
-    Long author;
+    Long authorId;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    LocalDateTime timestamp;
+    LocalDateTime updated;
 }

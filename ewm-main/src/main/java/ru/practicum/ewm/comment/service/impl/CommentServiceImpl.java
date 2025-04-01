@@ -57,13 +57,13 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentResponse> getCommentsByEventId(Long eventId, Integer from, Integer size) {
-            Pageable pageRequest = PageRequest.of(from / size, size);
-            Page<Comment> commentPage = commentRepository.findByEventId(eventId, pageRequest);
+        Pageable pageRequest = PageRequest.of(from / size, size);
+        Page<Comment> commentPage = commentRepository.findByEventId(eventId, pageRequest);
 
-            return commentPage.getContent()
-                            .stream()
-                            .map(commentMapper::toResponse)
-                            .toList();
+        return commentPage.getContent()
+                .stream()
+                .map(commentMapper::toResponse)
+                .toList();
     }
 
     @Override

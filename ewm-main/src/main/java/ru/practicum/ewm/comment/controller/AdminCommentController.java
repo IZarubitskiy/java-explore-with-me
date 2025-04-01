@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.comment.service.CommentService;
 
-
 @RestController
 @AllArgsConstructor
 @RequestMapping("/admin/comments")

@@ -13,8 +13,8 @@ import ru.practicum.ewm.comment.service.CommentService;
 @RequestMapping("/users/{userId}/events/{eventId}")
 @RequiredArgsConstructor
 public class PrivateCommentController {
-    private final  String userIdHeader = "X-Sharer-User-Id";
-    private final  CommentService commentService;
+    private final String userIdHeader = "X-Sharer-User-Id";
+    private final CommentService commentService;
 
     @PostMapping("/comment")
     @ResponseStatus(HttpStatus.CREATED)
@@ -30,7 +30,7 @@ public class PrivateCommentController {
             @PathVariable Long eventId,
             @PathVariable Long commentId,
             @Valid @RequestBody CommentUpdateRequest commentUpdateRequest) {
-        return commentService.updateCommentByUser(commentId, userId,eventId, commentUpdateRequest);
+        return commentService.updateCommentByUser(commentId, userId, eventId, commentUpdateRequest);
     }
 
     @DeleteMapping("/comments/{commentId}")

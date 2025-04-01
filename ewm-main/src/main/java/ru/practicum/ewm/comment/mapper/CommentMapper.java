@@ -16,10 +16,9 @@ public interface CommentMapper {
     @Mapping(target = "id", ignore = true)
     Comment toComment(CommentCreateRequest commentCreateDto, User author, Event event);
 
-    @Mapping(target = "author", source = "author.id")
-    @Mapping(target = "event", source = "event.id")
-    @Mapping(target = "timestamp", source = "comment", qualifiedByName = "mapTimestamp")
-    @Mapping(target = "updated", source = "comment", qualifiedByName = "mapUpdated")
+    @Mapping(target = "authorId", source = "author.id")
+    @Mapping(target = "eventId", source = "event.id")
+    @Mapping(target = "updated", source = "comment.updated")
     CommentResponse toResponse(Comment comment);
 
 }
