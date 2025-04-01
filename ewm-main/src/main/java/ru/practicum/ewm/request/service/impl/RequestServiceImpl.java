@@ -32,7 +32,7 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public Collection<ParticipationRequestDto> getAllUserRequest(Long userId) {
-        userSearchUtil.getById(userId);
+        userSearchUtil.findUserById(userId);
         Set<Request> requests = requestRepository.findAllByRequesterId(userId);
         log.info("GET requests by userId = {}", userId);
         return requests.stream().map(requestMapper::toRequestDto).toList();
@@ -45,7 +45,7 @@ public class RequestServiceImpl implements RequestService {
             throw new DuplicateRequestException("Request can be only one");
         }
         Event event = eventSearchUtil.findById(eventId);
-        User user = userSearchUtil.getById(userId);
+        User user = userSearchUtil.findUserById(userId);
         RequestStatus status = RequestStatus.PENDING;
 
         if (!event.getState().equals(EventState.PUBLISHED)) {
@@ -78,7 +78,7 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public ParticipationRequestDto cancelRequest(Long userId, Long requestId) {
-        userSearchUtil.getById(userId);
+        userSearchUtil.findUserById(userId);
         Request request = requestRepository.findById(requestId).orElseThrow(() ->
                 new NotFoundException("Request not found"));
         request.setStatus(RequestStatus.CANCELED);

@@ -203,7 +203,7 @@ public class EventServiceImpl implements EventService {
         Location location = locationSearchUtil.findById(eventCreateRequest.getLocation().getLat(),
                 eventCreateRequest.getLocation().getLon());
 
-        event.setInitiator(userSearchUtil.getById(userId));
+        event.setInitiator(userSearchUtil.findUserById(userId));
         event.setLocation(location);
 
         log.info("Create new event with userId = {}", userId);
@@ -261,7 +261,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Collection<ParticipationRequestDto> getRequests(Long userId, Long eventId) {
-        userSearchUtil.getById(userId);
+        userSearchUtil.findUserById(userId);
         Event event = eventSearchUtil.findById(eventId);
 
         if (!event.getInitiator().getId().equals(userId)) {
@@ -277,7 +277,7 @@ public class EventServiceImpl implements EventService {
     @Transactional
     public EventRequestStatusUpdateResult updateRequest(Long userId, Long eventId,
                                                         EventRequestStatusUpdateRequest updateRequest) {
-        userSearchUtil.getById(userId);
+        userSearchUtil.findUserById(userId);
         Event event = eventSearchUtil.findById(eventId);
 
         if (!event.getInitiator().getId().equals(userId)) {

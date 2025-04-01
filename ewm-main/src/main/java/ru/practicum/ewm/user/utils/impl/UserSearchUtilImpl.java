@@ -15,9 +15,8 @@ import ru.practicum.ewm.user.utils.UserSearchUtil;
 public class UserSearchUtilImpl implements UserSearchUtil {
     private final UserRepository userRepository;
 
-
     @Override
-    public User getById(Long userId) {
+    public User findUserById(Long userId) {
         log.info("Searching User with id={}", userId);
         return userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(String.format("User with id=%d not found", userId)));
