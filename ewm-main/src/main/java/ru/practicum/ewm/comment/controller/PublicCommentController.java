@@ -15,7 +15,7 @@ import java.util.List;
 public class PublicCommentController {
     private final CommentService commentService;
 
-    @GetMapping("/events/{eventId}/")
+    @GetMapping("/events/{eventId}")
     public List<CommentResponse> findCommentsByEventId(@RequestParam(defaultValue = "0") Integer from,
                                                        @RequestParam(defaultValue = "10") Integer size,
                                                        @PathVariable Long eventId) {
