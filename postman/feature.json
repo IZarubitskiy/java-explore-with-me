@@ -1078,7 +1078,18 @@
       ],
       "request": {
         "method": "PATCH",
-        "header": [],
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
         "url": {
           "raw": "{{baseUrl}}/users/:authorId/events/:eventId/comments/:commentId",
           "host": [
