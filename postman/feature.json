@@ -95,6 +95,15 @@
                 "type": "text"
               }
             ],
+            "body": {
+              "mode": "raw",
+              "raw": "{{request_body}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{baseUrl}}/users/:authorId/events/:eventId/comment",
               "host": [
@@ -201,6 +210,15 @@
                 "type": "text"
               }
             ],
+            "body": {
+              "mode": "raw",
+              "raw": "{{request_body}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{baseUrl}}/users/:authorId/events/:eventId/comment",
               "host": [
@@ -307,6 +325,15 @@
                 "type": "text"
               }
             ],
+            "body": {
+              "mode": "raw",
+              "raw": "{{request_body}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{baseUrl}}/users/:authorId/events/:eventId/comment",
               "host": [
@@ -412,6 +439,15 @@
                 "type": "text"
               }
             ],
+            "body": {
+              "mode": "raw",
+              "raw": "{{request_body}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{baseUrl}}/users/:authorId/events/:eventId/comment",
               "host": [
@@ -606,6 +642,15 @@
           "request": {
             "method": "PATCH",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{{request_body}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{baseUrl}}/users/:authorId/events/:eventId/comments/:commentId",
               "host": [
@@ -735,6 +780,15 @@
             "type": "text"
           }
         ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{request_body}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
         "url": {
           "raw": "{{baseUrl}}/users/:authorId/events/:eventId/comment",
           "host": [
@@ -975,9 +1029,21 @@
           }
         }
       ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
       "request": {
         "method": "GET",
         "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
         "url": {
           "raw": "{{baseUrl}}/comments/events/:eventId",
           "host": [
@@ -1090,6 +1156,15 @@
             "type": "text"
           }
         ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{request_body}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
         "url": {
           "raw": "{{baseUrl}}/users/:authorId/events/:eventId/comments/:commentId",
           "host": [
