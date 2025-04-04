@@ -18,7 +18,7 @@ public interface CommentMapper {
 
     @Mapping(target = "authorId", source = "author.id")
     @Mapping(target = "eventId", source = "event.id")
-    @Mapping(target = "updated", source = "comment.updated")
+    @Mapping(target = "updateDate", source = "comment.updateDate")
     CommentResponse toResponse(Comment comment);
 
 }

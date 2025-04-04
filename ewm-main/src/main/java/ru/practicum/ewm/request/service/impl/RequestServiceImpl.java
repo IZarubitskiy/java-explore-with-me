@@ -14,7 +14,7 @@ import ru.practicum.ewm.request.model.Request;
 import ru.practicum.ewm.request.model.enums.RequestStatus;
 import ru.practicum.ewm.request.service.RequestService;
 import ru.practicum.ewm.user.model.User;
-import ru.practicum.ewm.user.utils.UserSearchUtil;
+import ru.practicum.ewm.user.service.UserService;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -26,13 +26,13 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class RequestServiceImpl implements RequestService {
     private final RequestRepository requestRepository;
-    private final UserSearchUtil userSearchUtil;
+    private final UserService userService;
     private final EventSearchUtil eventSearchUtil;
     private final RequestMapper requestMapper;
 
     @Override
     public Collection<ParticipationRequestDto> getAllUserRequest(Long userId) {
-        userSearchUtil.findUserById(userId);
+        userService.getUserById(userId);
         Set<Request> requests = requestRepository.findAllByRequesterId(userId);
         log.info("GET requests by userId = {}", userId);
         return requests.stream().map(requestMapper::toRequestDto).toList();
@@ -45,7 +45,7 @@ public class RequestServiceImpl implements RequestService {
             throw new DuplicateRequestException("Request can be only one");
         }
         Event event = eventSearchUtil.findById(eventId);
-        User user = userSearchUtil.findUserById(userId);
+        User user = userService.getUserById(userId);
         RequestStatus status = RequestStatus.PENDING;
 
         if (!event.getState().equals(EventState.PUBLISHED)) {
@@ -78,7 +78,7 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public ParticipationRequestDto cancelRequest(Long userId, Long requestId) {
-        userSearchUtil.findUserById(userId);
+        userService.getUserById(userId);
         Request request = requestRepository.findById(requestId).orElseThrow(() ->
                 new NotFoundException("Request not found"));
         request.setStatus(RequestStatus.CANCELED);

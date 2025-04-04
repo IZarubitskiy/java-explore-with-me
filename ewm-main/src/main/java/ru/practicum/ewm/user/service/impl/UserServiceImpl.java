@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.exeption.exemptions.AlreadyExistsException;
+import ru.practicum.ewm.exeption.exemptions.NotFoundException;
 import ru.practicum.ewm.user.dao.UserRepository;
 import ru.practicum.ewm.user.dto.UserCreateRequest;
 import ru.practicum.ewm.user.dto.UserResponse;
@@ -64,4 +65,10 @@ public class UserServiceImpl implements UserService {
         log.info("User with id={} was deleted", userId);
     }
 
+    @Override
+    public User getUserById(Long userId) {
+        log.info("Searching User with id={}", userId);
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(String.format("User with id=%d not found", userId)));
+    }
 }

@@ -1,24 +1,18 @@
 package ru.practicum.ewm.comment.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
-public class CommentResponse {
-    Long id;
-    String text;
-    Long eventId;
-    Long authorId;
+import static ru.practicum.ewm.config.ewmMainCosnstants.JsonDatePattern;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    LocalDateTime updated;
+public record CommentResponse(
+        Long id,
+        String text,
+        Long eventId,
+        Long authorId,
+        @JsonFormat(pattern = JsonDatePattern)
+        LocalDateTime createDate,
+        @JsonFormat(pattern = JsonDatePattern)
+        LocalDateTime updateDate) {
 }

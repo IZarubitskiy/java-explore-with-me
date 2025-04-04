@@ -37,7 +37,7 @@ import ru.practicum.ewm.request.dto.ParticipationRequestDto;
 import ru.practicum.ewm.request.mapper.RequestMapper;
 import ru.practicum.ewm.request.model.Request;
 import ru.practicum.ewm.request.model.enums.RequestStatus;
-import ru.practicum.ewm.user.utils.UserSearchUtil;
+import ru.practicum.ewm.user.service.UserService;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -54,7 +54,7 @@ public class EventServiceImpl implements EventService {
     final RequestMapper requestMapper;
     final EventSearchUtil eventSearchUtil;
     final LocationSearchUtil locationSearchUtil;
-    final UserSearchUtil userSearchUtil;
+    final UserService userService;
     final EntityManager entityManager;
     final StatisticClient statisticClient;
 
@@ -203,7 +203,7 @@ public class EventServiceImpl implements EventService {
         Location location = locationSearchUtil.findById(eventCreateRequest.getLocation().getLat(),
                 eventCreateRequest.getLocation().getLon());
 
-        event.setInitiator(userSearchUtil.findUserById(userId));
+        event.setInitiator(userService.getUserById(userId));
         event.setLocation(location);
 
         log.info("Create new event with userId = {}", userId);
@@ -261,7 +261,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Collection<ParticipationRequestDto> getRequests(Long userId, Long eventId) {
-        userSearchUtil.findUserById(userId);
+        userService.getUserById(userId);
         Event event = eventSearchUtil.findById(eventId);
 
         if (!event.getInitiator().getId().equals(userId)) {
@@ -277,7 +277,7 @@ public class EventServiceImpl implements EventService {
     @Transactional
     public EventRequestStatusUpdateResult updateRequest(Long userId, Long eventId,
                                                         EventRequestStatusUpdateRequest updateRequest) {
-        userSearchUtil.findUserById(userId);
+        userService.getUserById(userId);
         Event event = eventSearchUtil.findById(eventId);
 
         if (!event.getInitiator().getId().equals(userId)) {

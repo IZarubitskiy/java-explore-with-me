@@ -2,6 +2,7 @@ package ru.practicum.ewm.user.service;
 
 import ru.practicum.ewm.user.dto.UserCreateRequest;
 import ru.practicum.ewm.user.dto.UserResponse;
+import ru.practicum.ewm.user.model.User;
 
 import java.util.Collection;
 import java.util.List;
@@ -12,4 +13,6 @@ public interface UserService {
     void deleteUserById(Long userId);
 
     Collection<UserResponse> getUsers(List<Long> userIds, int from, int size);
+
+    User getUserById(Long userId);
 }
