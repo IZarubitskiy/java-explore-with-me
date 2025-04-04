@@ -6,13 +6,13 @@ import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
-import static ru.practicum.ewm.config.ewmMainCosnstants.JsonDatePattern;
+import static ru.practicum.ewm.config.EWM_CONSTANTS.JSON_DATE_PATTERN;
 
 public record CommentCreateRequest(
         @NotBlank
         @Size(min = 20, max = 2000)
         String text,
-        @JsonFormat(pattern = JsonDatePattern)
+        @JsonFormat(pattern = JSON_DATE_PATTERN)
         LocalDateTime createDate) {
 }
 
