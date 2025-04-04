@@ -10,13 +10,15 @@ import ru.practicum.ewm.request.model.enums.RequestStatus;
 
 import java.time.LocalDateTime;
 
+import static ru.practicum.ewm.config.Constants.JSON_DATE_PATTERN;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class ParticipationRequestDto {
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = JSON_DATE_PATTERN)
     LocalDateTime created;
 
     Long event;
