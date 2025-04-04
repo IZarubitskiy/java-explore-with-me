@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
-import static ru.practicum.ewm.config.EWM_CONSTANTS.JSON_DATE_PATTERN;
+import static ru.practicum.ewm.config.Constants.JSON_DATE_PATTERN;
 
 public record CommentCreateRequest(
         @NotBlank
