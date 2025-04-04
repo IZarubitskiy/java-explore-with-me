@@ -13,5 +13,6 @@ public record CommentCreateRequest(
         @Size(min = 20, max = 2000)
         String text,
         @JsonFormat(pattern = JsonDatePattern)
-        LocalDateTime createDate) {}
+        LocalDateTime createDate) {
+}
 
